@@ -29,3 +29,35 @@ class TestVisibleString:
         obj = dlms_data.VisibleStringData(value=decoded)
 
         assert obj.to_bytes() == encoded
+
+class TestFloat32:
+
+    parameter_data = [
+        (b'\x17\x3f\x9e\x06\x51', 1.2345677614212036)
+    ]
+
+    @pytest.mark.parametrize("encoded,decoded", parameter_data)
+    def test_parse_data(self, encoded, decoded):
+        parsed = parse_as_dlms_data(encoded)
+        assert parsed == decoded
+
+    @pytest.mark.parametrize("encoded,decoded", parameter_data)
+    def test_encode_data(self, encoded, decoded):
+        obj = dlms_data.Float32Data(value=decoded)
+        assert obj.to_bytes() == encoded
+
+class TestFloat64:
+
+    parameter_data = [
+        (b'\x18\x3f\xf3\xc0\xca\x42\x8c\x59\xf8', 1.234567890123456)
+    ]
+
+    @pytest.mark.parametrize("encoded,decoded", parameter_data)
+    def test_parse_data(self, encoded, decoded):
+        parsed = parse_as_dlms_data(encoded)
+        assert parsed == decoded
+
+    @pytest.mark.parametrize("encoded,decoded", parameter_data)
+    def test_encode_data(self, encoded, decoded):
+        obj = dlms_data.Float64Data(value=decoded)
+        assert obj.to_bytes() == encoded
