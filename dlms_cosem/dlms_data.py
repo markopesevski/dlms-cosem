@@ -8,6 +8,7 @@ from typing import *
 from typing import List, Optional
 
 import attr
+import struct
 
 from dlms_cosem import time
 
@@ -339,6 +340,15 @@ class Float32Data(BaseDlmsData):
 
     TAG = 23
     LENGTH = 4
+    STRUCT_FMT = '!f'
+
+    @classmethod
+    def from_bytes(cls, bytes_data: bytes):
+        (value,) = struct.unpack(cls.STRUCT_FMT, bytes_data)
+        return cls(value=value)
+
+    def value_to_bytes(self) -> bytes:
+        return struct.pack(self.STRUCT_FMT, self.value)
 
 
 @attr.s(auto_attribs=True)
@@ -349,6 +359,15 @@ class Float64Data(BaseDlmsData):
 
     TAG = 24
     LENGTH = 8
+    STRUCT_FMT = '!d'
+
+    @classmethod
+    def from_bytes(cls, bytes_data: bytes):
+        (value,) = struct.unpack(cls.STRUCT_FMT, bytes_data)
+        return cls(value=value)
+
+    def value_to_bytes(self) -> bytes:
+        return struct.pack(self.STRUCT_FMT, self.value)
 
 
 @attr.s(auto_attribs=True)
