@@ -65,10 +65,17 @@ class DlmsClient:
     @contextlib.contextmanager
     def session(self) -> "DlmsClient":
         self.connect()
-        self.associate()
-        yield self
-        self.release_association()
-        self.disconnect()
+        try:
+            self.associate()
+            yield self
+            self.release_association()
+        finally:
+            # always close supporting layer. I believe that letting it opent, causes problems in HDLC (do not respond to SNRM because it is already connected)
+            from dlms_cosem.hdlc import state
+            if hasattr(self.transport, 'hdlc_connection'):
+                self.transport.hdlc_connection.state.current_state = state.IDLE
+            self.disconnect()
+
 
     def get(
             self,
