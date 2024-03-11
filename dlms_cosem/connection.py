@@ -493,7 +493,10 @@ class DlmsConnection:
             plain_text=plain_text,
         )
 
-        # updated the client_invocation_counter
+        # # updated the client_invocation_counter
+        # import traceback, sys
+        # print('-'*80)
+        # traceback.print_stack(file=sys.stdout)
         self.client_invocation_counter += 1
 
         return ciphered_text, invocation_counter

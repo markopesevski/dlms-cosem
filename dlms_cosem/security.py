@@ -415,6 +415,7 @@ class HighLevelSecurityGmacAuthentication:
             auth_key=connection.global_authentication_key,
             challenge=connection.meter_to_client_challenge,
         )
+        # should ic be incremented?
         return (
             only_auth_security_control.to_bytes()
             + connection.client_invocation_counter.to_bytes(4, "big")
