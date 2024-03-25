@@ -136,7 +136,31 @@ class EntryDescriptor:
         raise NotImplementedError()
 
     def to_bytes(self) -> bytes:
-        raise NotImplementedError()
+        """
+        entry_descriptor ::= structure
+        {
+            from_entry:              double-long-unsigned -- first entry to retrieve,
+            to_entry:                double-long-unsigned -- last entry to retrieve /*(if to_entry == 0: highest possible entry)*/
+            from_selected_value:     long-unsigned               -- index of first value to retrieve,
+            to_selected_value:       long-unsigned               -- index of last value to retrieve
+                                                                    /*(if to_selected_value == 0: highest
+                                                                    possible selected_value)*/
+        }
+        NOTE 1    from_entry and to_entry identify the lines, from_selected_value to_selected_value identify the columns of
+                the buffer to be retrieved.
+
+        NOTE 2    Numbering of entries and selected values starts from 1.
+        """
+        out = bytearray()
+        out.append(self.ACCESS_DESCRIPTOR)
+        out.extend(b"\x02\x04")  # structure of 4 elements
+        # TODO: use dlms_data.StructureData ?
+        out.extend(dlms_data.DoubleLongUnsignedData(self.from_entry).to_bytes())
+        out.extend(dlms_data.DoubleLongUnsignedData(self.to_entry).to_bytes())
+        out.extend(dlms_data.UnsignedLongData(self.from_selected_value).to_bytes())
+        out.extend(dlms_data.UnsignedLongData(self.to_selected_value).to_bytes())
+
+        return bytes(out)
 
 
 @attr.s(auto_attribs=True)

@@ -29,7 +29,7 @@ class CaptureObject:
         out = bytearray()
         out.extend(b"\x02\x04")  # A structure of 4 elements
         out.extend(
-            dlms_data.UnsignedLongData(self.cosem_attribute.interface.value).to_bytes()
+            dlms_data.UnsignedLongData(self.cosem_attribute.interface).to_bytes()
         )
         out.extend(
             dlms_data.OctetStringData(

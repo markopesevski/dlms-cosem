@@ -26,6 +26,7 @@ def test_capture_object_definition():
 
 
 def test_range_descriptor1():
+    # TODO: empty test
     data = (
         b"\xc0"  # Get request
         b"\x01"  # normal
@@ -114,3 +115,6 @@ def test_parse_range_descriptor():
         access_selection.restricting_object.cosem_attribute.instance.to_string()
         == "0-0:1.0.0.255"
     )
+
+def test_entry_description():
+    ...

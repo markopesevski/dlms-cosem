@@ -8,7 +8,7 @@ from dlms_cosem import cosem, dlms_data, enumerations, exceptions, state, utils
 from dlms_cosem.security import AuthenticationMethodManager
 from dlms_cosem.io import DlmsTransport
 from dlms_cosem.connection import DlmsConnection, DlmsConnectionSettings
-from dlms_cosem.cosem.selective_access import RangeDescriptor
+from dlms_cosem.cosem.selective_access import RangeDescriptor, EntryDescriptor
 from dlms_cosem.protocol import acse, xdlms
 from dlms_cosem.protocol.xdlms import ConfirmedServiceError
 
@@ -80,7 +80,7 @@ class DlmsClient:
     def get(
             self,
             cosem_attribute: cosem.CosemAttribute,
-            access_descriptor: Optional[RangeDescriptor] = None,
+            access_descriptor: RangeDescriptor| EntryDescriptor | None = None,
     ) -> bytes:
         self.send(
             xdlms.GetRequestNormal(

@@ -51,7 +51,8 @@ class Data:
         return attribute_id in self.STATIC_ATTRIBUTES.keys()
 
 
-def convert_load_profile(instance, data):
+# TODO: rename to convert_profile_generic
+def convert_load_profile(instance: 'ProfileGeneric', data: List[List[Optional[Any]]]):
     parser = parsers.ProfileGenericBufferParser(
         capture_objects=[x.cosem_attribute for x in instance.capture_objects],
         capture_period=instance.capture_period,
@@ -66,7 +67,7 @@ class ProfileGeneric:
     ] = enums.CosemInterface.PROFILE_GENERIC
 
     logical_name: cosem.Obis
-    buffer = List[List[Any]]
+    buffer: List[List[Any]]
     capture_objects: List[CaptureObject]
     capture_period: int
     sort_method: Optional[SortMethod] = attr.ib(default=None)
