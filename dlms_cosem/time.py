@@ -272,7 +272,7 @@ def datetime_from_bytes(source_bytes: bytes) -> Tuple[datetime, Optional[ClockSt
         int.from_bytes(source_bytes[9:11], "big", signed=True), b"\x80\x00", signed=True
     )
     status_bytes = source_bytes[-1].to_bytes(1, "big")
-    status = ClockStatus.from_bytes(status_bytes) if status_bytes else None
+    status = ClockStatus.from_bytes(status_bytes) if status_bytes !=0xFF else None # 0xFF means not specified
 
     dt = datetime(
         year=d.year,
