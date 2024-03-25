@@ -76,7 +76,7 @@ with public_client.session() as client:
         )
     )
     invocation_counter = data_decoder.decode(response_data)["data"]
-    print(f"meter_initial_invocation_counter = {invocation_counter}")
+    print(f"client_initial_invocation_counter = {invocation_counter}")
 
 # we are not reusing the socket as of now. We just need to give the meter some time to
 # close the connection on its side
