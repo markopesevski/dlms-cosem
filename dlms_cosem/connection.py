@@ -657,10 +657,9 @@ class DlmsConnection:
         The received invocation counter must be larger than the last one we registered.
         """
         if received_invocation_counter <= self.meter_invocation_counter:
-            raise exceptions.LocalDlmsProtocolError(
-                "Received invocation counter is not larger than the previous "
-                "received one. "
-            )
+            msg = "Received invocation counter (%d) " % received_invocation_counter
+            msg += "is not larger than the previous received one (%d)." % self.meter_invocation_counter
+            raise exceptions.LocalDlmsProtocolError(msg)
         self.meter_invocation_counter = received_invocation_counter
 
     def update_meter_info(self, aare: acse.ApplicationAssociationResponse) -> None:
