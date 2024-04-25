@@ -22,8 +22,8 @@ class RangeDescriptor:
     restricting_object: CaptureObject = attr.ib(
         validator=attr.validators.instance_of(CaptureObject)
     )
-    from_value: datetime = attr.ib(validator=attr.validators.instance_of(datetime))
-    to_value: datetime = attr.ib(validator=attr.validators.instance_of(datetime))
+    from_value: datetime = attr.ib(validator=attr.validators.instance_of((datetime, int)))
+    to_value: datetime = attr.ib(validator=attr.validators.instance_of((datetime, int)))
     selected_values: Optional[List[CaptureObject]] = attr.ib(default=None)
 
     @classmethod
@@ -51,8 +51,12 @@ class RangeDescriptor:
             cosem_attribute=restricting_cosem_attribute,
             data_index=restricting_object_data[3],
         )
-        from_dt, clock_status = time.datetime_from_bytes(from_value_data)
-        to_dt, clock_status = time.datetime_from_bytes(to_value_data)
+        try:
+            from_dt, clock_status = time.datetime_from_bytes(from_value_data)
+            to_dt, clock_status = time.datetime_from_bytes(to_value_data)
+        except:
+            from_dt = from_value_data
+            to_dt = to_value_data
         if selected_values_data:
             raise NotImplementedError()
         else:
